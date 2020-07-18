@@ -1,0 +1,11 @@
+# --------------------------------------------------
+# SMS Notifications System API
+# --------------------------------------------------
+
+http:
+  port: "8081"
+  
+twilio:
+  username: "<<Colocar Account Sid de Twilio>>"
+  password: "<<Colocar Auth Token>>"
+  fromNumber: "<<Colocar Numero de pruebas que crees en Twilio>>"

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+  xmlns:slack="http://www.mulesoft.org/schema/mule/slack"
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/slack http://www.mulesoft.org/schema/mule/slack/current/mule-slack.xsd">
+
+  <sub-flow
+    name="post-notification-subflow"
+    doc:id="b2e8f6f5-4a5e-4b13-981e-9be39a0335e7">
+
+    <logger
+      level="INFO"
+      doc:name="Logger"
+      doc:id="5e59ba74-623b-4b1c-9587-79d1604ffa84"
+      message="Nuevo envío de notifiación -&gt; #[payload]" />
+
+    <slack:post-message
+      channel="#[payload.channel]"
+      doc:name="Chat - Post Message"
+      doc:id="aa1d522c-3650-490e-a845-f20fe9b4a8a0"
+      config-ref="Slack_Config">
+
+      <slack:message><![CDATA[#[payload.body]]]></slack:message>
+
+    </slack:post-message>
+
+    <set-payload
+      value="#[null]"
+      doc:name="Set Payload"
+      doc:id="7f65bc62-b5d4-4a0c-8954-2f52bf3d6723" />
+
+  </sub-flow>
+
+</mule>

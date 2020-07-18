@@ -1,0 +1,12 @@
+[
+  {
+    "body": "Esto es un SMS de ejemplo",
+    "destination": "+50764092892",
+    "type": "SMS"
+  },
+  {
+    "body": "Esto es una notifiación de ejemplo",
+    "destination": "accounts",
+    "type": "Slack"
+  }
+]

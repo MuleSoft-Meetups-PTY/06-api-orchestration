@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="Notifiaction" format="json">
+      <types:shape format="weave" example="examples/process-api-notification-example.json"><![CDATA[%dw 2.0
+
+type Notifiaction = Array<{|  body: String,   destination: String,   "type": String|}> {"example": "[{\\\"body\\\":\\\"Esto es un SMS de ejemplo\\\",\\\"destination\\\":\\\"+50764092892\\\",\\\"type\\\":\\\"SMS\\\"},{\\\"body\\\":\\\"Esto es una notifiaci\u00F3n de ejemplo\\\",\\\"destination\\\":\\\"accounts\\\",\\\"type\\\":\\\"Slack\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#eda16d8a-c26d-42ae-9a7a-9acade381921">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="Notifiaction[]"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

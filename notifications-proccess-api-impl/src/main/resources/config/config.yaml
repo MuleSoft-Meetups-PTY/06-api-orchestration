@@ -1,0 +1,19 @@
+# --------------------------------------------------
+# Notifications Process API
+# --------------------------------------------------
+
+http:
+  port: "8083"
+    
+sms-system-api:
+  protocol: "HTTP"
+  host: "localhost"
+  port: "8081"
+  base-path: "/api"
+  
+team-notifications-system-api:
+  protocol: "HTTP"
+  host: "localhost"
+  port: "8082"
+  base-path: "/api"
+  channel: "accounts"

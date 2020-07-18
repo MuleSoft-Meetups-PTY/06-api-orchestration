@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+  xmlns:team-notifications-system-api="http://www.mulesoft.org/schema/mule/team-notifications-system-api"
+  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+  xmlns:sms-system-api="http://www.mulesoft.org/schema/mule/sms-system-api"
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sms-system-api http://www.mulesoft.org/schema/mule/sms-system-api/current/mule-sms-system-api.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/team-notifications-system-api http://www.mulesoft.org/schema/mule/team-notifications-system-api/current/mule-team-notifications-system-api.xsd">
+
+  <sub-flow
+    name="send-notifications-subflow"
+    doc:id="eda16d8a-c26d-42ae-9a7a-9acade381921">
+
+    <logger
+      level="INFO"
+      doc:name="Logger"
+      doc:id="431fbfff-b866-49c5-a6d2-608cdd514476"
+      message="Nueva solicitud de envio de notifiaciones! -&gt; #[payload]" />
+
+    <foreach
+      doc:name="For Each"
+      doc:id="2a6cebcb-2ea8-4c4e-a7af-4f71c1bdd817"
+      collection="#[payload]">
+
+      <choice
+        doc:name="Choice"
+        doc:id="4bcd1130-30fd-421d-9f3a-3845da9fcd91">
+
+        <when expression='#[payload."type" == "SMS"]'>
+
+          <ee:transform
+            doc:name="To SMS"
+            doc:id="5aa8a110-dc38-40e7-b6a7-add0c705370a">
+
+            <ee:message>
+              <ee:set-payload resource="dwl/papi-notification-to-sapi-sms.dwl" />
+            </ee:message>
+
+          </ee:transform>
+
+          <sms-system-api:enviar-sms
+            doc:name="Enviar SMS"
+            doc:id="f4359214-892c-455e-b7a6-7c3a92fd6d7f"
+            config-ref="SMS_System_API_Config" />
+
+        </when>
+
+        <when expression='#[payload."type" == "Slack"]'>
+
+          <ee:transform
+            doc:name="To Notification"
+            doc:id="0b24170f-4e27-42b2-80a4-9626f2c03e03">
+
+            <ee:message>
+              <ee:set-payload resource="dwl/papi-notification-to-sapi-notification.dwl" />
+            </ee:message>
+
+          </ee:transform>
+
+          <team-notifications-system-api:nueva-notificacin
+            doc:name="Nueva notificación"
+            doc:id="2a86fbfb-7d59-46c8-94ca-e0a244904be4"
+            config-ref="Team_Notifications_System_API_Config" />
+
+        </when>
+
+        <otherwise>
+
+          <logger
+            level="WARN"
+            doc:name="Logger"
+            doc:id="9d55e5ec-bd32-4f3b-8a86-d75d253607d0"
+            message="Tipo no implementado" />
+
+        </otherwise>
+
+      </choice>
+
+    </foreach>
+
+  </sub-flow>
+
+</mule>

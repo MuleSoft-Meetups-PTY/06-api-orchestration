@@ -1,0 +1,9 @@
+# --------------------------------------------------
+# Team Notifications System API
+# --------------------------------------------------
+
+http:
+  port: "8082"
+
+slack:
+  token: "<<Colocar Token de Slack>>"

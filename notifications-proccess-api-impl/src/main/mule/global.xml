@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+  xmlns:team-notifications-system-api="http://www.mulesoft.org/schema/mule/team-notifications-system-api"
+  xmlns:sms-system-api="http://www.mulesoft.org/schema/mule/sms-system-api"
+  xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+  xmlns:http="http://www.mulesoft.org/schema/mule/http"
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sms-system-api http://www.mulesoft.org/schema/mule/sms-system-api/current/mule-sms-system-api.xsd
+http://www.mulesoft.org/schema/mule/team-notifications-system-api http://www.mulesoft.org/schema/mule/team-notifications-system-api/current/mule-team-notifications-system-api.xsd">
+
+  <configuration-properties
+    doc:name="Configuration properties"
+    doc:id="b0ef0ac3-eb7f-4b75-964d-83fad03622d9"
+    file="config/config.yaml" />
+
+  <http:listener-config name="notifications-process-api-httpListenerConfig">
+
+    <http:listener-connection
+      host="0.0.0.0"
+      port="${http.port}" />
+
+  </http:listener-config>
+
+  <apikit:config
+    name="notifications-process-api-config"
+    api="resource::ac601cd1-a0d3-41e5-9a3e-54e75f7f5c99:notifications-process-api:1.0.0:raml:zip:notifications-process-api.raml"
+    outboundHeadersMapName="outboundHeaders"
+    httpStatusVarName="httpStatus" />
+
+  <sms-system-api:config
+    name="SMS_System_API_Config"
+    doc:name="SMS System API Config"
+    doc:id="dfbe4ae3-627c-47cb-a453-df445465982f"
+    property_host="${sms-system-api.host}"
+    property_port="${sms-system-api.port}"
+    property_protocol="${sms-system-api.protocol}"
+    property_basePath="${sms-system-api.base-path}" />
+
+  <team-notifications-system-api:config
+    name="Team_Notifications_System_API_Config"
+    doc:name="Team Notifications System API Config"
+    doc:id="40ae14d1-58b9-4f60-b0e2-78090777b9eb"
+    property_host="${team-notifications-system-api.host}"
+    property_port="${team-notifications-system-api.port}"
+    property_protocol="${team-notifications-system-api.protocol}"
+    property_basePath="${team-notifications-system-api.base-path}" />
+
+</mule>

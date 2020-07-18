@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="ApiSMS" format="json">
+      <types:shape format="weave" example="examples/api-sms-exmaple.json"><![CDATA[%dw 2.0
+
+type ApiSMS = {|
+  body: String, 
+  phoneNumber: String
+|} {"example": "{\\\"body\\\":\\\"Esto es un mensaje de prueba!\\\",\\\"phoneNumber\\\":\\\"+5076409289\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#09a42152-a3be-470a-89be-56e53a86c519">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ApiSMS"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

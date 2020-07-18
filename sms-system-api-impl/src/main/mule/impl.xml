@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+  xmlns:twilio-connector="http://www.mulesoft.org/schema/mule/twilio-connector"
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/twilio-connector http://www.mulesoft.org/schema/mule/twilio-connector/current/mule-twilio-connector.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+  <sub-flow
+    name="send-sms-subflow"
+    doc:id="09a42152-a3be-470a-89be-56e53a86c519">
+
+    <logger
+      level="INFO"
+      doc:name="Log Request Body"
+      doc:id="8cea5b30-6534-43e2-beef-8581590ed622"
+      message="Nuevo envío de SMS -&gt; #[payload]" />
+
+    <ee:transform
+      doc:name="To Twilio SMS"
+      doc:id="ca45abac-ad80-4780-8619-5e50e81132b1">
+
+      <ee:message>
+        <ee:set-payload resource="dwl/sapi-message-to-twilio-sms.dwl" />
+      </ee:message>
+
+    </ee:transform>
+
+    <twilio-connector:send-message
+      doc:name="Send Message"
+      doc:id="a1a2f98c-3808-495f-b9c9-4aaa2327c773"
+      config-ref="Twilio_Connector_Config"
+      account-sid="${twilio.username}" />
+
+    <set-variable
+      value='#[{"X-Message-ID": payload.sid}]'
+      doc:name="Message ID Header"
+      doc:id="6027c207-b9f8-4efc-b9c5-2cb31cf0a876"
+      variableName="outboundHeaders" />
+
+    <set-payload
+      value="#[null]"
+      doc:name="Empty Payload"
+      doc:id="230a2789-2d87-42f9-a7e3-ab34de215bd6" />
+
+  </sub-flow>
+
+</mule>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="ApiNotification" format="json">
+      <types:shape format="weave" example="examples/api-notification-example.json"><![CDATA[%dw 2.0
+
+type ApiNotification = {|
+  channel: String, 
+  body: String
+|} {"example": "{\\\"channel\\\":\\\"accounts\\\",\\\"body\\\":\\\"Esto es una notificaci\u00F3n\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#b2e8f6f5-4a5e-4b13-981e-9be39a0335e7">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ApiNotification"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

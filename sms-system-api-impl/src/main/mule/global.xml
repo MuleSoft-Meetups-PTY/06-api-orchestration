@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+  xmlns:twilio-connector="http://www.mulesoft.org/schema/mule/twilio-connector"
+  xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+  xmlns:http="http://www.mulesoft.org/schema/mule/http"
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/twilio-connector http://www.mulesoft.org/schema/mule/twilio-connector/current/mule-twilio-connector.xsd">
+
+  <configuration-properties
+    doc:name="Configuration properties"
+    doc:id="da3a5df3-5662-4a26-b001-d1d02d7b4dee"
+    file="config/config.yaml" />
+
+  <http:listener-config name="sms-system-api-httpListenerConfig">
+
+    <http:listener-connection
+      host="0.0.0.0"
+      port="${http.port}" />
+
+  </http:listener-config>
+
+  <apikit:config
+    name="sms-system-api-config"
+    api="resource::ac601cd1-a0d3-41e5-9a3e-54e75f7f5c99:sms-system-api:1.0.3:raml:zip:sms-system-api.raml"
+    outboundHeadersMapName="outboundHeaders"
+    httpStatusVarName="httpStatus" />
+
+  <twilio-connector:config
+    name="Twilio_Connector_Config"
+    doc:name="Twilio Connector Config"
+    doc:id="069e1f8c-6311-4197-a373-6b4416c55d7b"
+    property_username="${twilio.username}"
+    property_password="${twilio.password}" />
+
+</mule>
